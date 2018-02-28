@@ -1,0 +1,19 @@
+<div class="row" style="margin: 0">
+    <div class="col-md-2 col-md-offset-5" style="margin-top: 100px">
+        <h2 style="text-align: center">Login</h2>
+        <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" placeholder="Enter email" [(ngModel)]="email" (input)="input()"
+                (keydown.Enter)="login()">
+            <p *ngIf="errors.email" class="validate-msg text-danger small">Wrong email</p>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" placeholder="Enter password"
+               type="password" [(ngModel)]="password" (keydown.Enter)="login()">
+            <p *ngIf="errors.password" class="validate-msg text-danger small">Wrong password</p>
+        </div>
+        <button class="btn btn-success" [disabled]="!canLogin" (click)="login()">Login</button>
+        <button class="btn btn-primary" (click)="goToSignUp()">Sign up</button>
+    </div>
+</div>

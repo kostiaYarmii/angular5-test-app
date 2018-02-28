@@ -1,0 +1,75 @@
+<div class="row" style="border-bottom: 1px solid #ddd; margin: 0; padding: 5px;">
+    <button class="btn btn-default" (click)="logout()">Logout</button>
+</div>
+<div class="row" style="margin: 0">
+    <div class="col-md-6 col-md-offset-3" style="border: 1px solid #ddd; border-top: 0; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+        <div class="row" style="max-height: 60vh; overflow: auto; padding: 5px;">
+            <div *ngIf="!posts.length" class="alert alert-warning" style="margin: 0">No records</div>
+            <div *ngFor="let post of posts; let i = index" class="panel panel-default" style="margin: 0" [style.margin-bottom]="i == (posts.lengh-1) ? '0' : '5px'">
+                <div class="panel-heading">
+                    <b>{{post.title}}</b>
+                    <button *ngIf="!post.editing" class="btn btn-danger btn-xs pull-right" title="Delete" (click)="deletePost(i)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button *ngIf="!post.editing" class="btn btn-default btn-xs pull-right" style="margin-right: 5px" title="Edit" (click)="startPostEditing(post)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button *ngIf="post.editing" class="btn btn-danger btn-xs pull-right" title="Cancel" (click)="post.editing = false">
+                        <i class="fa fa-ban"></i>
+                    </button>
+                    <button *ngIf="post.editing" class="btn btn-success btn-xs pull-right"
+                        style="margin-right: 5px" title="Save" [disabled]="!post.canSaveEditing"
+                        (click)="savePostEditing(post)">
+                        <i class="fa fa-save"></i>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <span *ngIf="!post.editing">{{post.text}}</span>
+                    <div *ngIf="post.editing" class="row">
+                        <div class="col-md-4">
+                            <label>Title</label>
+                            <input class="form-control" [value]="post.title" (input)="editPostElement($event, post, 'title')"
+                                (keydown.Enter)="savePostEditing(post)">
+                        </div>
+                        <div class="col-md-8">
+                            <label>Text</label>
+                            <input class="form-control" [value]="post.text" (input)="editPostElement($event, post, 'text')"
+                                (keydown.Enter)="savePostEditing(post)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="border-top: 1px solid #ddd; padding: 5px;">
+            <div class="col-md-4">
+                <label>Title</label>
+                <input class="form-control" placeholder="Enter title" [(ngModel)]="newPost.title"
+                    (keydown.Enter)="createPost()">
+            </div>
+            <div class="col-md-8">
+                <label>Text</label>
+                <div class="form-group input-group">
+                    <input class="form-control" placeholder="Enter text" style="border-radius: 4px"
+                        [(ngModel)]="newPost.text" (keydown.Enter)="createPost()">
+                    <span class="input-group-btn" style="padding-left: 3px">
+                        <button class="btn btn-success" style="border-radius: 4px"
+                            [disabled]="!canCreate" (click)="createPost()">Create</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loginedUser" class="col-md-2" style="border: 1px solid #ddd; border-top: 0; margin-left: 20px; padding-bottom: 15px;">
+        <h3>Personal cabinet</h3>
+        <div>
+            <b>First name</b>
+            <br>
+            <span>{{loginedUser.firstName}}</span>
+        </div>
+        <div>
+            <b>Email</b>
+            <br>
+            <span>{{loginedUser.email}}</span>
+        </div>
+    </div>
+</div>
